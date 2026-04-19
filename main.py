@@ -1,7 +1,13 @@
+import os
+import sys
+
+# Add project root to path
+sys.path.append(os.getcwd())
+
 import argparse
 from PIL import Image
 from models.ocr_rules import OCRRuleBasedParser
-from models.layoutlm_v3 import LayoutLMV3Wrapper
+from models.layoutlm_v3 import LayoutLMV3Model
 from models.donut import DonutWrapper
 from evaluation.metrics import calculate_json_similarity, print_evaluation_report
 

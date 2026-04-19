@@ -1,5 +1,11 @@
+import os
+import sys
 import argparse
 import json
+
+# Add project root to path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from pipelines.inference_donut import DonutPipeline
 
 def main():

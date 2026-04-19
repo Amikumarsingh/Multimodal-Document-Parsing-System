@@ -1,6 +1,11 @@
+import os
+import sys
 import argparse
 import json
-import os
+
+# Add project root to path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from pipelines.inference_rules import RuleBasedPipeline
 
 def main():

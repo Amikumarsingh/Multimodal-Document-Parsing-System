@@ -1,4 +1,8 @@
-from transformers import DonutProcessor, DonutForConditionalGeneration
+try:
+    from transformers import DonutForConditionalGeneration
+except ImportError:
+    from transformers import VisionEncoderDecoderModel as DonutForConditionalGeneration
+from transformers import DonutProcessor
 import torch
 from PIL import Image
 import re

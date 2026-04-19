@@ -1,6 +1,12 @@
+import os
+import sys
 import argparse
 import time
 import json
+
+# Add project root to path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from evaluation.metrics import calculate_json_similarity, print_evaluation_report
 from pipelines.inference_rules import RuleBasedPipeline
 from pipelines.inference_llm import LayoutLMPipeline
