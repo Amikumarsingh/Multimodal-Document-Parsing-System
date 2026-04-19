@@ -15,15 +15,15 @@ The system is designed with a **modular-first** philosophy, allowing developers 
 
 ### 1. **Pipeline A: OCR + Spatial Heuristics**
 *   **Best for**: Fixed-layout forms (Invoices, Tax Forms).
-*   **Logic**: Uses Tesseract OCR for character recognition followed by a spatial proximity engine that associates labels with values based on coordinate geometry.
+*   **Logic**: Uses Tesseract OCR followed by a spatial proximity engine in `pipelines/inference_rules.py`.
 
 ### 2. **Pipeline B: Layout-Aware Transformers (LayoutLM v3)**
 *   **Best for**: Complex, multi-page business documents.
-*   **Logic**: A multimodal model using unified text, layout, and visual embeddings. It frames extraction as a **Token Classification (NER)** task over normalized coordinate spaces.
+*   **Logic**: A multimodal model using unified text, layout, and visual embeddings. Orchestrated in `pipelines/inference_llm.py`.
 
 ### 3. **Pipeline C: OCR-Free Generative Parsing (Donut)**
 *   **Best for**: Mobile-captured, noisy, or handwritten documents.
-*   **Logic**: An end-to-end **Encoder-Decoder Swin Transformer**. It reads images directly as pixels and generates structured JSON sequences, eliminating OCR error propagation.
+*   **Logic**: An end-to-end generative transformer that reads images as pixels and outputs JSON directly. Orchestrated in `pipelines/inference_donut.py`.
 
 ---
 
@@ -31,7 +31,7 @@ The system is designed with a **modular-first** philosophy, allowing developers 
 
 ```text
 multimodal-doc-parser/
-├── configs/            # Centralized YAML configurations
+├── configs/            # Centralized YAML configurations (base_config.yaml)
 ├── data/               # Data loaders and multimodal preprocessors
 ├── models/             # Core architecture definitions (LayoutLM, Donut, OCR)
 ├── pipelines/          # High-level orchestration for each strategy
@@ -59,16 +59,20 @@ pip install -r requirements.txt
 ```
 
 ### 3. Real-Time Inference
-Analyze any document using your preferred pipeline:
+Analyze any document using your preferred pipeline from the root directory:
+
 ```bash
-# Rule-Based OCR
-python scripts/predict_rules.py --image invoice.png
+# Pipeline A: Rule-Based OCR
+python scripts/predict_rules.py --image path/to/invoice.png
 
-# LayoutLM v3
-python scripts/predict_llm.py --image receipt.jpg
+# Pipeline B: LayoutLM v3
+python scripts/predict_llm.py --image path/to/receipt.jpg
 
-# Donut (OCR-Free)
-python scripts/predict_donut.py --image photo.jpg
+# Pipeline C: Donut (OCR-Free)
+python scripts/predict_donut.py --image path/to/photo.jpg
+
+# Full System Evaluation (Benchmark all 3)
+python scripts/evaluate.py --image path/to/test.png
 ```
 
 ### 4. Deploying the API
