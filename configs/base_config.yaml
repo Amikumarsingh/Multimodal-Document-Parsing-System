@@ -1,0 +1,25 @@
+# Global Configuration
+project_name: "Multimodal Document Parsing System"
+version: "1.0.0"
+
+# Model Paths
+models:
+  ocr_rules:
+    tesseract_path: null # Set to tesseract.exe path on Windows
+  layoutlm:
+    checkpoint: "microsoft/layoutlmv3-base"
+    finetuned_path: "./results/layoutlm_funsd"
+  donut:
+    checkpoint: "naver-clova-ix/donut-base"
+    finetuned_path: "./results/donut_cord"
+
+# Inference Settings
+inference:
+  max_length: 512
+  device: "cuda" # or "cpu"
+  batch_size: 1
+
+# Dataset Settings
+dataset:
+  funsd_path: "nielsr/funsd"
+  cord_path: "naver-clova-ix/cord-v2"
